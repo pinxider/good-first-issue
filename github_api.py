@@ -39,7 +39,20 @@ def get_commit_activity(repo_name):
         return response.json()
     return None
 
-# def code_frequency(repo_name)
+def get_issues(repo_name, labels=None):
+    url = f"https://api.github.com/repos/{repo_name}/issues"
+    params = {"state": "open"}
+    
+    if labels:
+        params["labels"] = labels
+        
+    response = requests.get(url, headers=headers, params=params)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Failed to get issues for {repo_name}: {response.status_code}")
+        return []
 
 repos = [
     "facebook/react",
@@ -51,6 +64,7 @@ for repo in repos:
     info = get_repo_metadata(repo)
     contributors = get_contributors(repo)
     activity = get_commit_activity(repo)
+    issues = get_issues(repo, "good first issue")
     if info:
         print(f"{info['name']}: {info['stars']} stars ({info['language']})")
         print(f"  {info['description']}")
@@ -59,3 +73,5 @@ for repo in repos:
         print(f"{len(contributors)} contributors")
     if activity:
         print(activity)
+    if issues: 
+        print(issues)
