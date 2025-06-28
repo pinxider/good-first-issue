@@ -15,7 +15,11 @@ def get_repo_metadata(repo_name):
             'name': data['full_name'],
             'stars': data['stargazers_count'],
             'language': data['language'],
-            'description': data['description']
+            'description': data['description'],
+            'forks': data['forks_count'],
+            'open_issues': data['open_issues_count'],
+            'created_at': data['created_at'],
+            'updated_at': data['updated_at']
         }
     else:
         print(f"Failed to fetch {repo_name}: {response.status_code}")
@@ -60,18 +64,18 @@ repos = [
     "python/cpython"
 ]
 
-for repo in repos:
-    info = get_repo_metadata(repo)
-    contributors = get_contributors(repo)
-    activity = get_commit_activity(repo)
-    issues = get_issues(repo, "good first issue")
-    if info:
-        print(f"{info['name']}: {info['stars']} stars ({info['language']})")
-        print(f"  {info['description']}")
-        print()
-    if contributors:
-        print(f"{len(contributors)} contributors")
-    if activity:
-        print(activity)
-    if issues: 
-        print(issues)
+# for repo in repos:
+#     info = get_repo_metadata(repo)
+#     contributors = get_contributors(repo)
+#     activity = get_commit_activity(repo)
+#     issues = get_issues(repo, "good first issue")
+#     if info:
+#         print(f"{info['name']}: {info['stars']} stars ({info['language']})")
+#         print(f"  {info['description']}")
+#         print()
+#     if contributors:
+#         print(f"{len(contributors)} contributors")
+#     if activity:
+#         print(activity)
+#     if issues: 
+#         print(issues)
