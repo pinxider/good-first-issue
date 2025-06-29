@@ -4,7 +4,7 @@ import os
 token = os.getenv("GITHUB_TOKEN")
 headers = {"Authorization": f"token {token}"} if token else {}
 
-def get_repo_metadata(repo_name):
+def get_repo_metadata(repo_name: str) -> dict[str, any] | None:
     
     url = f"https://api.github.com/repos/{repo_name}"
     try:
@@ -51,7 +51,7 @@ def get_repo_metadata(repo_name):
 #         return response.json()
 #     return None
 
-def get_issues(repo_name, labels=None):
+def get_issues(repo_name: str, labels: str | None = None) -> list[dict[str, any]]:
     url = f"https://api.github.com/repos/{repo_name}/issues"
     params = {"state": "open"}
     
