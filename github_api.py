@@ -51,12 +51,14 @@ def get_repo_metadata(repo_name: str) -> dict[str, any] | None:
 #         return response.json()
 #     return None
 
-def get_issues(repo_name: str, labels: str | None = None) -> list[dict[str, any]]:
+def get_issues(repo_name: str, labels: str | None = None, since: str | None = None) -> list[dict[str, any]]:
     url = f"https://api.github.com/repos/{repo_name}/issues"
     params = {"state": "open"}
     
     if labels:
         params["labels"] = labels
+    if since:
+        params["since"] = since
         
     try:
         response = requests.get(url, headers=headers, params=params, timeout=10)
@@ -69,6 +71,28 @@ def get_issues(repo_name: str, labels: str | None = None) -> list[dict[str, any]
     except requests.RequestException as e:
         print(f"Error fetching issues for {repo_name}: {e}")
         return []
+
+def get_readme_file(repo_name: str) -> str | None:
+    """Check if repository has a README.md file."""
+    url = f"https://api.github.com/repos/{repo_name}/contents/README.md"
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        if response.status_code == 200:
+            return response.json().get("html_url")
+        return None
+    except requests.RequestException:
+        return None
+
+def get_contributing_file(repo_name: str) -> str | None:
+    """Check if repository has a CONTRIBUTING.md file."""
+    url = f"https://api.github.com/repos/{repo_name}/contents/CONTRIBUTING.md"
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        if response.status_code == 200:
+            return response.json().get("html_url")
+        return None
+    except requests.RequestException:
+        return None
 
 repos = [
     "facebook/react",
