@@ -1,4 +1,4 @@
-# Good First Commit =
+# Good First Issue
 
 A simple tool to help developers find beginner-friendly GitHub repositories to contribute to.
 
